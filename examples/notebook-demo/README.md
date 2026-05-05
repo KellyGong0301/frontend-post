@@ -1,6 +1,16 @@
 # Notebook Demo
 
-A 7-card carousel in the **校园手账 Campus Notebook** style — this is the actual deck that announces this skill (cover, pain points, intro, 12-style preview, usage, design principles, open-source declaration).
+A 7-card carousel in the **校园手账 Campus Notebook** style — this is the actual deck that announces this skill.
+
+**Page-by-page**:
+
+1. **Cover** — title + 6-layout × 6-style mini grid (封面/数据/清单/长文/步骤/对比 × 奶油拿铁/暗黑科技/校园手账/复古杂志/多巴胺/极简黑白)
+2. **Pain points** — checklist of layout struggles
+3. **Intro** — what the skill does
+4. **12 styles × 12 card types** preview (封面/金句/词典/数据仪表盘/步骤/诗词/干货清单/行动卡/对比/长文/台词/价目)
+5. **Usage** — 3-step install + run
+6. **Design principles** — 更少 AI 味 (no purple gradients, no default fonts, hard char limits)
+7. **Open-source declaration** — GitHub link
 
 **渲染好的成品图**：见仓库根目录 [`docs/preview/`](../../docs/preview/)。
 
