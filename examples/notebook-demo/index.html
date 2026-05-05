@@ -5,7 +5,7 @@
 <title>我教 AI 给我排小红书</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@400;700&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@400;700&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;700;900&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   /* ========== 校园手账 Campus Notebook ========== */
   :root {
@@ -265,29 +265,100 @@
 <body>
 <div class="deck">
 
-  <!-- ========== 卡片 1：封面 ========== -->
+  <!-- ========== 卡片 1：封面（多案例展示） ========== -->
   <div class="card-wrap"><section class="card">
-    <div class="tape" style="top: 80px; left: 60px;"></div>
-    <div class="tape" style="top: 100px; right: 40px; background: var(--bg-tape2); transform: rotate(8deg);"></div>
+    <div class="tape" style="top: 56px; left: 80px; transform: rotate(-4deg);"></div>
+    <div class="tape" style="top: 76px; right: 60px; background: var(--bg-tape2); transform: rotate(5deg);"></div>
 
-    <div class="corner-tag" style="top: 220px; right: 80px;">/ AI 工具笔记</div>
+    <div class="corner-tag">/ COVER</div>
 
-    <div style="margin-top: 280px;">
-      <h1 class="cover-title">
-        不会 PS，<br>
-        <span class="hl">让 AI 帮我</span><br>
-        排小红书
+    <!-- 标题区 -->
+    <div style="margin-top: 56px;">
+      <h1 style="font-family: var(--font-display); font-size: 108px; line-height: 1.1; font-weight: 700; color: var(--ink); letter-spacing: 0.02em;">
+        一个 <span class="hl">skill</span><br>
+        搞定小红书排版
       </h1>
-      <p class="cover-sub">5 分钟搞定 7 张图<br>没设计基础也能做</p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px;">
+        <p style="font-family: var(--font-display); font-size: 32px; color: var(--ink-soft); line-height: 1.5;">
+          12 套风格 · 自定义 · 不撞款
+        </p>
+        <div class="red-note" style="font-size: 38px; transform: rotate(-3deg); white-space: nowrap;">
+          都是真案例 ↓
+        </div>
+      </div>
     </div>
 
-    <div class="red-note" style="position: absolute; bottom: 200px; right: 100px;">
-      亲测好用 ↗
+    <!-- 案例缩略网格 -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; margin-top: 44px;">
+
+      <!-- 1. 奶油拿铁 -->
+      <div style="aspect-ratio: 3/4; background: #F5EFE6; color: #4A3520; padding: 26px 22px; border-radius: 14px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;">
+        <div style="position: absolute; top: 18px; right: 18px; width: 22px; height: 22px; border-radius: 50%; background: #D97757;"></div>
+        <div style="font-family: 'ZCOOL XiaoWei', serif; font-size: 44px; line-height: 1.2; font-weight: 700;">
+          周末早餐<br>提案 ☕
+        </div>
+        <div style="font-size: 18px; color: #8B6F47; margin-top: 12px; letter-spacing: 0.1em;">CREAM · LATTE</div>
+      </div>
+
+      <!-- 2. 多巴胺 -->
+      <div style="aspect-ratio: 3/4; background: #FFE066; color: #1A1A1A; padding: 26px 22px; border-radius: 14px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;">
+        <div style="position: absolute; top: -22px; right: -22px; width: 76px; height: 76px; border-radius: 50%; background: #FF6B9D;"></div>
+        <div style="font-family: 'ZCOOL KuaiLe', sans-serif; font-size: 38px; line-height: 1.15; font-weight: 700; color: #1A1A1A;">
+          我用 AI<br>
+          <span style="background: #1A1A1A; color: #FFE066; padding: 0 8px; display: inline-block; transform: rotate(-2deg);">月入 5万</span>
+        </div>
+        <div style="font-size: 18px; color: #1A1A1A; margin-top: 10px; opacity: 0.7; letter-spacing: 0.1em;">DOPAMINE</div>
+      </div>
+
+      <!-- 3. 莫兰迪 -->
+      <div style="aspect-ratio: 3/4; background: #DDD5CB; color: #3E3A36; padding: 26px 22px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;">
+        <div style="position: absolute; top: 0; left: 0; width: 38%; height: 100%; background: #9CA39C;"></div>
+        <div style="position: absolute; top: 22px; right: 22px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #6B6560; letter-spacing: 0.15em;">03</div>
+        <div style="font-family: 'Noto Serif SC', serif; font-size: 38px; line-height: 1.25; font-weight: 700; position: relative;">
+          i 人<br>社恐自救
+        </div>
+        <div style="font-size: 16px; color: #6B6560; margin-top: 12px; letter-spacing: 0.18em; position: relative;">MORANDI</div>
+      </div>
+
+      <!-- 4. 极简黑白 -->
+      <div style="aspect-ratio: 3/4; background: #FFFFFF; color: #0A0A0A; padding: 26px 22px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid #0A0A0A;">
+        <div style="font-family: 'Noto Sans SC', sans-serif; font-size: 88px; line-height: 1; font-weight: 900; color: #0A0A0A;">04</div>
+        <div>
+          <div style="font-family: 'Noto Sans SC', sans-serif; font-size: 32px; line-height: 1.2; font-weight: 700;">
+            30 岁<br>
+            我存了 <span style="color: #FF3D00;">50 万</span>
+          </div>
+          <div style="font-size: 14px; color: #6E6E6E; margin-top: 12px; letter-spacing: 0.2em;">MINIMAL · MONO</div>
+        </div>
+      </div>
+
+      <!-- 5. 国风水墨 -->
+      <div style="aspect-ratio: 3/4; background: #F2EBDC; color: #1A1A1A; padding: 26px 22px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;">
+        <div style="position: absolute; top: 18px; right: 18px; width: 44px; height: 44px; background: #B91C1C; transform: rotate(-6deg); display: flex; align-items: center; justify-content: center; color: white; font-family: 'Ma Shan Zheng', serif; font-size: 22px;">夏</div>
+        <div style="font-family: 'Ma Shan Zheng', serif; font-size: 64px; line-height: 1.1; color: #1A1A1A;">立夏</div>
+        <div style="font-family: 'Noto Serif SC', serif; font-size: 22px; color: #5C5346; margin-top: 8px;">三候记 · 节气</div>
+        <div style="font-size: 14px; color: #5C5346; margin-top: 10px; letter-spacing: 0.2em;">CHINOISERIE</div>
+      </div>
+
+      <!-- 6. 暗黑科技 -->
+      <div style="aspect-ratio: 3/4; background: #0A0E1A; color: #E8ECF1; padding: 26px 22px; border-radius: 14px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+        background-image: linear-gradient(rgba(0,255,148,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,148,0.06) 1px, transparent 1px);
+        background-size: 24px 24px, 24px 24px;
+        background-position: 0 0;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #00FF94; margin-bottom: 10px;">&gt; cursor.tip</div>
+        <div style="font-family: 'Noto Sans SC', sans-serif; font-size: 34px; line-height: 1.2; font-weight: 700; color: #E8ECF1;">
+          Cursor<br>
+          <span style="color: #00FF94;">5 个神操作</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8B95A7; margin-top: 12px; letter-spacing: 0.15em;">DARK · TECH</div>
+      </div>
+
     </div>
 
-    <div style="position: absolute; bottom: 100px; left: 80px; display: flex; gap: 16px; align-items: center;">
-      <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--accent);"></div>
-      <span class="small">a Claude Code skill · 2026</span>
+    <!-- 底部签名 -->
+    <div style="position: absolute; bottom: 56px; left: 80px; display: flex; gap: 14px; align-items: center;">
+      <div style="width: 14px; height: 14px; border-radius: 50%; background: var(--accent);"></div>
+      <span class="small" style="font-size: 22px;">open source · made with AI</span>
     </div>
   </section></div>
 
