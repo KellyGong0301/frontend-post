@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Design philosophy
 - **Layout tool, not content generator** — users provide text + style preferences; AI just executes.
-- **Strong constraints over creative freedom** — copies the [openclaw-slides](https://github.com/zarazhangrui/openclaw-slides) approach: density limits + curated presets + banned-pattern list = no generic AI look.
+- **Strong constraints over creative freedom** — adapts the [frontend-slides](https://github.com/zarazhangrui/frontend-slides) approach: density limits + curated presets + banned-pattern list = no generic AI look.
 - **User control surface** — all theme tokens (`--bg`, `--ink`, `--accent`, `--font-display`, `--font-body`) exposed in `:root` for live editing.
 
 [0.1.0]: https://github.com/KellyGong0301/frontend-post/releases/tag/v0.1.0
