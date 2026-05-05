@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>我教 AI 给我排小红书</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@400;700&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ========== 校园手账 Campus Notebook ========== */
+  :root {
+    --bg: #FDFBF5;          /* 米黄纸 */
+    --bg-grid: #E8DFC9;     /* 横线 */
+    --bg-tape: #FFE9A8;     /* 胶带黄 */
+    --bg-tape2: #FFB8B8;    /* 胶带粉 */
+    --ink: #2C2826;         /* 黑色字 */
+    --ink-pen: #2A4D8F;     /* 钢笔蓝 */
+    --ink-soft: #6B665C;
+    --highlight: #FFE066;   /* 荧光黄 */
+    --highlight-pink: #FFB8D1; /* 荧光粉 */
+    --accent: #E84855;      /* 红笔 */
+    --accent-green: #5BA577; /* 绿笔 */
+    --font-display: "LXGW WenKai", "Noto Sans SC", serif;
+    --font-body: "LXGW WenKai", "Noto Sans SC", serif;
+    --font-hand: "Long Cang", "Liu Jian Mao Cao", cursive;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ========== 预览容器 ========== */
+  body {
+    background: #ECECEC;
+    padding: 40px 0;
+    font-family: var(--font-body);
+  }
+  .deck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  .card-wrap {
+    width: 360px; height: 480px;        /* 3:4 缩略 */
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.12);
+    border-radius: 12px;
+    background: var(--bg);
+  }
+  .card {
+    width: 1080px; height: 1440px;       /* 真实尺寸 */
+    transform: scale(0.3333);
+    transform-origin: top left;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    position: relative;
+    overflow: hidden;
+    padding: 96px 80px;
+    /* 整卡背景细横线 */
+    background-image: linear-gradient(transparent 95%, var(--bg-grid) 95%);
+    background-size: 100% 64px;
+    background-position: 0 80px;
+  }
+
+  /* ========== 通用排版 ========== */
+  .cover-title {
+    font-family: var(--font-display);
+    font-size: 144px;
+    line-height: 1.18;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .cover-sub {
+    font-family: var(--font-display);
+    font-size: 44px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-top: 36px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 88px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .page-sub {
+    font-family: var(--font-display);
+    font-size: 36px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-top: 24px;
+  }
+  .body {
+    font-size: 40px;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+  .small {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: var(--ink-soft);
+  }
+
+  /* ========== 装饰元素 ========== */
+  /* 撕胶带 */
+  .tape {
+    position: absolute;
+    width: 220px;
+    height: 56px;
+    background: var(--bg-tape);
+    opacity: 0.85;
+    transform: rotate(-6deg);
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  }
+  .tape::before, .tape::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 12px;
+    background: linear-gradient(90deg, transparent 0%, transparent 40%, rgba(0,0,0,.05) 70%, transparent 100%);
+  }
+  .tape::before { left: -12px; clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%); background: var(--bg-tape); opacity: .85; }
+  .tape::after { right: -12px; clip-path: polygon(0 0, 100% 30%, 100% 70%, 0 100%); background: var(--bg-tape); opacity: .85; }
+
+  /* 红笔批注 */
+  .red-note {
+    font-family: var(--font-hand);
+    font-size: 56px;
+    color: var(--accent);
+    transform: rotate(-3deg);
+    line-height: 1;
+  }
+
+  /* 荧光笔 */
+  .hl {
+    background: linear-gradient(transparent 55%, var(--highlight) 55%, var(--highlight) 92%, transparent 92%);
+    padding: 0 4px;
+  }
+  .hl-pink {
+    background: linear-gradient(transparent 55%, var(--highlight-pink) 55%, var(--highlight-pink) 92%, transparent 92%);
+    padding: 0 4px;
+  }
+
+  /* 钢笔蓝色块 */
+  .pen-box {
+    border: 4px solid var(--ink-pen);
+    border-radius: 12px;
+    padding: 24px 32px;
+    color: var(--ink-pen);
+  }
+
+  /* 复选框列表 */
+  .check-list { list-style: none; padding: 0; margin: 48px 0 0 0; }
+  .check-list li {
+    font-size: 42px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    padding-left: 60px;
+    position: relative;
+    color: var(--ink);
+  }
+  .check-list li::before {
+    content: "□";
+    position: absolute;
+    left: 0; top: -4px;
+    font-size: 48px;
+    color: var(--ink-pen);
+    font-weight: 700;
+  }
+
+  /* 数字标号 */
+  .num-list { list-style: none; padding: 0; margin: 48px 0 0 0; }
+  .num-list li {
+    font-size: 40px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+    padding-left: 88px;
+    position: relative;
+  }
+  .num-list li .num {
+    position: absolute;
+    left: 0; top: -4px;
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* 双列布局 */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 56px;
+    margin-top: 48px;
+  }
+  .two-col .item {
+    font-size: 40px;
+    line-height: 1.4;
+    color: var(--ink);
+    padding-left: 24px;
+    border-left: 6px solid var(--accent-green);
+  }
+
+  /* 卡片角落小标 */
+  .corner-tag {
+    position: absolute;
+    top: 56px; right: 80px;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+  .page-num {
+    position: absolute;
+    bottom: 56px; right: 80px;
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+
+  /* 终端代码块 */
+  .code {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    background: #2C2826;
+    color: #FDFBF5;
+    padding: 28px 36px;
+    border-radius: 8px;
+    line-height: 1.6;
+    margin-top: 24px;
+  }
+  .code .prompt { color: #5BA577; }
+
+  /* 大数字 */
+  .big-num {
+    font-family: var(--font-display);
+    font-size: 360px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    transform: rotate(-4deg);
+  }
+
+  /* 圆圈强调 */
+  .circle {
+    display: inline-block;
+    border: 4px solid var(--accent);
+    border-radius: 50%;
+    padding: 2px 18px;
+    transform: rotate(-2deg);
+  }
+
+  /* ========== 印刷模式（render.py 截图时用） ========== */
+  @media print {
+    body { background: white; padding: 0; }
+    .card-wrap { width: 1080px; height: 1440px; box-shadow: none; border-radius: 0; }
+    .card { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ========== 卡片 1：封面 ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="tape" style="top: 80px; left: 60px;"></div>
+    <div class="tape" style="top: 100px; right: 40px; background: var(--bg-tape2); transform: rotate(8deg);"></div>
+
+    <div class="corner-tag" style="top: 220px; right: 80px;">/ AI 工具笔记</div>
+
+    <div style="margin-top: 280px;">
+      <h1 class="cover-title">
+        不会 PS，<br>
+        <span class="hl">让 AI 帮我</span><br>
+        排小红书
+      </h1>
+      <p class="cover-sub">5 分钟搞定 7 张图<br>没设计基础也能做</p>
+    </div>
+
+    <div class="red-note" style="position: absolute; bottom: 200px; right: 100px;">
+      亲测好用 ↗
+    </div>
+
+    <div style="position: absolute; bottom: 100px; left: 80px; display: flex; gap: 16px; align-items: center;">
+      <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--accent);"></div>
+      <span class="small">a Claude Code skill · 2026</span>
+    </div>
+  </section></div>
+
+  <!-- ========== 卡片 2：痛点 ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="corner-tag">No. 02</div>
+
+    <h2 class="page-title">
+      你是不是<br>
+      也<span class="hl-pink">这样</span> ↓
+    </h2>
+
+    <ul class="check-list">
+      <li>想发小红书，<span class="hl">不会排版</span></li>
+      <li>用 Canva 模板，全网撞款</li>
+      <li>AI 写的标题，一眼就假</li>
+      <li>自己 P 图，1 小时只出 1 张</li>
+      <li>越想做精致，越不敢发</li>
+    </ul>
+
+    <div class="red-note" style="position: absolute; bottom: 180px; right: 120px;">
+      我也是 ✗
+    </div>
+
+    <div class="page-num">02 / 07</div>
+  </section></div>
+
+  <!-- ========== 卡片 3：介绍 ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="corner-tag">No. 03</div>
+
+    <h2 class="page-title">
+      <span class="circle">所以</span>我做了<br>
+      一个 Skill
+    </h2>
+    <p class="page-sub">教 Claude Code 直接出小红书图</p>
+
+    <div style="margin-top: 80px;">
+      <div class="pen-box" style="margin-bottom: 32px;">
+        <div style="font-size: 36px; font-weight: 700; margin-bottom: 12px;">12 套不撞款风格</div>
+        <div style="font-size: 30px; opacity: .8;">从奶油拿铁到暗黑科技</div>
+      </div>
+      <div class="pen-box" style="margin-bottom: 32px;">
+        <div style="font-size: 36px; font-weight: 700; margin-bottom: 12px;">1080×1440 高清 PNG</div>
+        <div style="font-size: 30px; opacity: .8;">直接上传不糊</div>
+      </div>
+      <div class="pen-box">
+        <div style="font-size: 36px; font-weight: 700; margin-bottom: 12px;">自动配色 + 中文字体</div>
+        <div style="font-size: 30px; opacity: .8;">霞鹜文楷 / 思源宋体 / 毛笔字</div>
+      </div>
+    </div>
+
+    <div class="page-num">03 / 07</div>
+  </section></div>
+
+  <!-- ========== 卡片 4：12 风格 ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="corner-tag">No. 04</div>
+
+    <h2 class="page-title">
+      <span class="hl">12 套</span>风格<br>
+      总有一款适合你
+    </h2>
+
+    <div class="two-col">
+      <div class="item">奶油拿铁 ☕</div>
+      <div class="item">杂志大字</div>
+      <div class="item">莫兰迪</div>
+      <div class="item">暗黑科技</div>
+      <div class="item">多巴胺</div>
+      <div class="item">国风水墨</div>
+      <div class="item">校园手账 📓</div>
+      <div class="item">日系治愈</div>
+      <div class="item">极简黑白</div>
+      <div class="item">复古杂志</div>
+      <div class="item">港风胶片</div>
+      <div class="item">咖啡店黑板</div>
+    </div>
+
+    <div class="red-note" style="position: absolute; bottom: 160px; right: 80px; font-size: 44px;">
+      这张就是<br>「校园手账」哟
+    </div>
+
+    <div class="page-num">04 / 07</div>
+  </section></div>
+
+  <!-- ========== 卡片 5：用法（自定义风格） ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="corner-tag">No. 05</div>
+
+    <h2 class="page-title">
+      想要啥样<br>
+      <span class="hl">直接说</span>
+    </h2>
+    <p class="page-sub">12 套预设打底，怎么改都行</p>
+
+    <ul class="check-list" style="margin-top: 64px;">
+      <li style="font-style: italic;">"想要<b style="font-style: normal; background: var(--highlight); padding: 0 6px;">莫兰迪色</b>调"</li>
+      <li style="font-style: italic;">"字大一点，留白多一点"</li>
+      <li style="font-style: italic;">"标题用<b style="font-style: normal; background: var(--highlight-pink); padding: 0 6px;">毛笔字</b>"</li>
+      <li style="font-style: italic;">"加点贴纸装饰"</li>
+      <li style="font-style: italic;">"改成深色背景"</li>
+    </ul>
+
+    <div class="red-note" style="position: absolute; bottom: 180px; right: 80px; font-size: 40px; line-height: 1.3;">
+      像跟设计师<br>聊天一样 ✓
+    </div>
+
+    <div class="page-num">05 / 07</div>
+  </section></div>
+
+  <!-- ========== 卡片 6：为什么不撞款 ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="corner-tag">No. 06</div>
+
+    <h2 class="page-title">
+      为什么<br>
+      <span class="hl">不会撞款</span>？
+    </h2>
+
+    <ul class="check-list" style="margin-top: 56px;">
+      <li><span style="color: var(--accent); font-weight: 700;">禁</span> AI 通用紫色渐变</li>
+      <li><span style="color: var(--accent); font-weight: 700;">禁</span> 默认苹方 / Inter 字体</li>
+      <li><span style="color: var(--accent-green); font-weight: 700;">✓</span> 字数硬上限，超量自动拆</li>
+      <li><span style="color: var(--accent-green); font-weight: 700;">✓</span> 中文字体精挑配对</li>
+      <li><span style="color: var(--accent-green); font-weight: 700;">✓</span> 每张装饰元素不重样</li>
+    </ul>
+
+    <div class="red-note" style="position: absolute; bottom: 200px; right: 80px; font-size: 40px;">
+      产出有底线 ✓
+    </div>
+
+    <div class="page-num">06 / 07</div>
+  </section></div>
+
+  <!-- ========== 卡片 7：开源声明 ========== -->
+  <div class="card-wrap"><section class="card">
+    <div class="tape" style="top: 80px; left: 80px; transform: rotate(-5deg);"></div>
+    <div class="tape" style="top: 100px; right: 60px; background: var(--bg-tape2); transform: rotate(7deg);"></div>
+
+    <div class="corner-tag">No. 07 / END</div>
+
+    <div style="margin-top: 240px; text-align: center;">
+      <div class="red-note" style="font-size: 56px; transform: rotate(-3deg); display: inline-block; margin-bottom: 32px;">
+        免费 · open source ✓
+      </div>
+
+      <h2 style="font-family: var(--font-display); font-size: 156px; font-weight: 700; line-height: 1.1; color: var(--ink); margin-bottom: 56px; letter-spacing: 0.04em;">
+        已<span class="hl">开源</span>
+      </h2>
+
+      <div style="border: 4px solid var(--ink-pen); border-radius: 16px; padding: 32px 44px; display: inline-block; background: var(--bg);">
+        <div style="font-family: var(--font-mono); font-size: 60px; font-weight: 700; color: var(--ink-pen); letter-spacing: 0.02em;">
+          frontend-post
+        </div>
+      </div>
+
+      <p style="font-family: var(--font-display); font-size: 38px; color: var(--ink); margin-top: 48px; line-height: 1.7;">
+        一个排小红书图的 <b>Claude Code Skill</b><br>
+        <span style="color: var(--ink-soft);">自己装 / 自己改 / 自己用</span>
+      </p>
+    </div>
+
+    <div class="red-note" style="position: absolute; bottom: 140px; left: 50%; transform: translateX(-50%) rotate(-2deg); font-size: 48px;">
+      ♥ thx for reading
+    </div>
+  </section></div>
+
+</div>
+</body>
+</html>

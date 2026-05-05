@@ -4,6 +4,17 @@
 
 🇨🇳 **中文用户直接往下看，全文中文。**
 
+<p align="center">
+  <img src="docs/preview/card_01.png" alt="cover" width="22%">
+  <img src="docs/preview/card_02.png" alt="pain points" width="22%">
+  <img src="docs/preview/card_04.png" alt="12 styles" width="22%">
+  <img src="docs/preview/card_07.png" alt="open source" width="22%">
+</p>
+
+<p align="center">
+  <em>↑ 用 frontend-post 自己生成的开源宣发图（校园手账风）。完整 7 张见 <a href="docs/preview/">docs/preview/</a>，源文件见 <a href="examples/notebook-demo/">examples/notebook-demo/</a>。</em>
+</p>
+
 ---
 
 ## ✨ 这是什么
@@ -98,25 +109,19 @@ python ~/.claude/skills/frontend-post/scripts/render.py output/index.html output
 frontend-post/
 ├── SKILL.md                          # 主流程（Claude 读这个）
 ├── README.md                         # 你正在看的这份
+├── CHANGELOG.md                      # 版本更新记录
 ├── LICENSE                           # MIT
 ├── references/
 │   ├── STYLE_PRESETS.md              # 12 套风格的 CSS / 字体 / 装饰规范
 │   └── HOOK_PATTERNS.md              # 9 种封面标题钩子公式
-└── scripts/
-    ├── render.js                     # Node + puppeteer-core（推荐）
-    └── render.py                     # Python + Playwright（跨平台）
+├── scripts/
+│   ├── render.js                     # Node + puppeteer-core（推荐）
+│   └── render.py                     # Python + Playwright（跨平台）
+├── examples/
+│   └── notebook-demo/                # 7 张校园手账风样例（含 HTML + 说明）
+└── docs/
+    └── preview/                      # 渲染好的预览 PNG
 ```
-
-## 🛡️ 小红书发布合规提示
-
-如果产出图准备发到小红书，**避免以下高危区**（容易被判违规 / 限流）：
-
-- ❌ "评论区扣 1 / 私信发你 / GitHub 搜 X" 等外链引导
-- ❌ "关注 + 收藏 + 点赞" 等诱导互动
-- ❌ HOOK_PATTERNS.md 里的 **警告型** 钩子（"千万别 X！"）容易被审
-- ❌ 任何具体产品名 / 价格 / 联系方式
-
-skill 内部所有套路都保留（让 AI 知道有这些手段），但**生成给你发布的内容会自动脱敏**。如果 Claude 没脱敏，跟它说一句"按合规版重写一下"。
 
 ## 💡 设计哲学
 
